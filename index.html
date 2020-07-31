@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" href="css\main.css">
+		<meta charset="UTF-8">
+		<link rel="shortcut icon" type="image/ico" href="images/favicon.ico" width="16px" height="16px" />
+		<title>CancerCoffeeCo. Hub</title>
+		<script src="https://cdn.jsdelivr.net/npm/awi/dist/awi.js"></script>
+	</head>
+	<body>
+		<div id="big_wrapper">
+			<div class="grid-container-form">
+				<div class="top">
+					<img src="images/logo.svg" width="70px" height="auto">
+				<header>CancerCoffeeCo.</header>
+			</div>
+			<div class="header">
+				<header id="top_header" class="grid">
+					<h1 id="mainhead">Login now! Don't have an account, create one</h1>
+				</header>
+			</div>
+			<div class="mleft">
+				<form id="login" onsubmit="">
+					<section>
+						<header>
+							<h1 id="ltext">Login</h1>
+							<p id="fb"></p>
+							<form method="post">
+							</header>
+							<p id="lheader"><input type="text" id="email_L" placeholder="Email"></p>
+							<p id="lbody"><input type="password" id="pass_L" placeholder="Password"></p>
+							<p id="lmove"><input class="btn-login" value="Login" name="login_but" type="button" onclick="login()"></p>
+						</form>
+					</section>
+				</form>
+			</div>
+			<div class="mright">
+				<form id="register">
+					<section>
+						<header>
+							<h1 id="rtext">Register</h1>
+							<form id="register" onsubmit="">
+							</header>
+							<p id="rheader"><input type="text" id="user_R" name="username" placeholder="Username"></p>
+							<p id="poststring"><input type="text" id="email_R" name="email" placeholder="Email"></p>
+							<p id="rsubmit"><input type="password" id="password_R" name="password" placeholder="Password"></p>
+							<p id="rmove"><input class="btn-register" type="button" name="register_but" onclick="register()" value="Create Account"><p>
+						</form>
+					</section>
+				</form>
+			</div>
+		</div>
+		<script>
+
+			//global above.
+			function login() {
+				//debugger;
+				var email = document.getElementById("email_L").value;
+				var password = document.getElementById("pass_L").value;
+				new awi.Awi().post('http://localhost:3000/login', {
+				email: email,
+				password: password
+				})
+				.then(res => localStorage.token = res.body.api_token)
+				.catch(console.log) // fail
+				const authed = () => new awi.Awi()
+				.use(async req => req.headers.Authorization = localStorage.token)
+				authed().get('http://localhost:3000/user')
+				.then(console.log) // pass
+				.catch(console.log) // fail
+				checklogin();
+			}
+			function checklogin(){
+				if (localStorage.getItem("token") === null) {
+				document.getElementById("mainhead").innerHTML = '<header>Logged out of the CancerCoffeeCo. Hub</header>'
+				document.getElementById("rtext").innerHTML = '<p id="rtext">Register</p>';
+				document.getElementById("rheader").innerHTML = '<p id="rheader"><input type="text" id="user_R" name="username" placeholder="Username"></p>';
+				document.getElementById("poststring").innerHTML = ' <p id="poststring"><input type="text" id="email_R" name="email" placeholder="Email"></p>';
+				document.getElementById("rsubmit").innerHTML = '<p id="rsubmit"><input type="password" id="password_R" name="password" placeholder="Password"></p>';
+				document.getElementById("rmove").innerHTML = '<p id="rmove"><input class="btn-register" type="button" name="register_but" onclick="register()" value="Create Account"></p>';
+				document.getElementById("ltext").innerHTML = '<h1 id="ltext">Login</h1>';
+				document.getElementById("lheader").innerHTML = '<p id="lheader"><input type="text" id="email_L" placeholder="Email"></p>';
+				document.getElementById("lbody").innerHTML = '<p id="lbody"><input type="password" id="pass_L" placeholder="Password"></p>';
+				document.getElementById("lmove").innerHTML = '<p id="lmove"><input class="btn-login" value="Login" name="login_but" type="button" onclick="login()"></p>';
+				}
+			else {
+			document.getElementById("mainhead").innerHTML = '<header id="mainhead">Welcome to the CancerCoffeeCo. Hub</header>'
+			document.getElementById("rtext").innerHTML = '<p id="rtext"></p>';
+			document.getElementById("rheader").innerHTML = '<p id="rheader">Whats on your mind</p>';
+			document.getElementById("poststring").innerHTML = ' <p id="poststring"> <textarea rows="4" cols="50" name="comment" id="sendpost" input type="text"></textarea></p>';
+			document.getElementById("rsubmit").innerHTML = '<p id="rsubmit"> <input class="btn-poststatus" type="button" name="status_but" onclick="poststatus()" value="Post Status"></p>';
+			document.getElementById("rmove").innerHTML = '<p id="rmove"></p>';
+			document.getElementById("ltext").innerHTML = '<p id="ltext"><input type="text" id="search_L" placeholder="search"><input class="btn-poststatus" type="button" name="status_searchbut" onclick="searchstatus()" value="Click to Search"></p>';
+			document.getElementById("lheader").innerHTML = '<p id="lheader">Your wall</p>';
+			document.getElementById("lbody").innerHTML = '<p id="lbody"></p>';
+			document.getElementById("lmove").innerHTML = '<p id="lmove"><input class="btn-logout" type="button" name="logout_but" onclick="logout()" value="logout"></p>';
+			getstatus();
+		}
+	}
+	function register() {
+		//debugger;
+		var email = document.getElementById("email_R").value;
+		var password = document.getElementById("password_R").value;
+		var username = document.getElementById("user_R").value;
+			new awi.Awi().post('http://localhost:3000/register', {
+		email: email,
+		password: password,
+		name: username
+		}).then(function(){
+			document.getElementById('email_R').value = "";
+			document.getElementById('password_R').value = "";
+			document.getElementById('user_R').value = "";
+			window.alert("Account created");
+		}) // pass
+		.catch(console.log) // fail
+	}
+
+	function poststatus(){
+		var string = document.getElementById("sendpost").value;
+		new awi.Awi().post('http://localhost:3000/poststatus', {
+		postst: string
+		}).then(function(){
+			getstatus();
+		})// pass
+		.catch(console.log)// fail
+		//getstatus();
+	}
+
+
+	function getstatus(){
+		var request = new XMLHttpRequest();
+		var response = 0;
+
+		request.onload = function() {
+			if(this.status == 200){
+				response = JSON.parse(request.responseText);
+				//console.log(response);
+				var i = 0;
+				var text = "";
+				while (i != response.length){
+					text += (decodeURIComponent(response[i].postst)) + "<br><hr>";
+					i++;
+				}
+				document.getElementById("lbody").innerHTML = text;
+
+			}else{
+				console.log("nope")
+				console.log(this.responseText)
+			}
+		};
+
+		request.open("GET", "http://localhost:3000/getstatus", true)
+		request.send()
+	}
+
+
+	function searchstatus(){
+		var request = new XMLHttpRequest();
+		var response = 0;
+		var string = document.getElementById("search_L").value;
+
+
+		request.onload = function() {
+			if(this.status == 200){
+				response = JSON.parse(request.responseText);
+				var i = 0;
+				var text = "";
+				while (i != response.length){
+					text += decodeURI((response[i].postst)) + "<br><hr>";
+					i++;
+				}
+				document.getElementById("lbody").innerHTML = text;
+
+			}else{
+				console.log("nope")
+				console.log(this.responseText)
+			}
+		};
+
+		request.open("GET", "http://localhost:3000/searchstatus?searchpost="+string, true)
+		request.send()
+	}	
+
+
+	function logout(){
+		localStorage.removeItem("token");
+			document.getElementById("mainhead").innerHTML = '<header>Logged out of the CancerCoffeeCo. Hub</header>'
+			document.getElementById("rtext").innerHTML = '<p id="rtext">Register</p>';
+			document.getElementById("rheader").innerHTML = '<p id="rheader"><input type="text" id="user_R" name="username" placeholder="Username"></p>';
+			document.getElementById("poststring").innerHTML = ' <p id="poststring"><input type="text" id="email_R" name="email" placeholder="Email"></p>';
+			document.getElementById("rsubmit").innerHTML = '<p id="rsubmit"><input type="password" id="password_R" name="password" placeholder="Password"></p>';
+			document.getElementById("rmove").innerHTML = '<p id="rmove"><input class="btn-register" type="button" name="register_but" onclick="register()" value="Create Account"></p>';
+			document.getElementById("ltext").innerHTML = '<h1 id="ltext">Login</h1>';
+			document.getElementById("lheader").innerHTML = '<p id="lheader"><input type="text" id="email_L" placeholder="Email"></p>';
+			document.getElementById("lbody").innerHTML = '<p id="lbody"><input type="password" id="pass_L" placeholder="Password"></p>';
+			document.getElementById("lmove").innerHTML = '<p id="lmove"><input class="btn-login" value="Login" name="login_but" type="button" onclick="login()"></p>';
+	}
+</script>
+</body>
+</div>
+</html>
+<!--
+dynamic update loser.
+-->

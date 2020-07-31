@@ -1,0 +1,180 @@
+/*global */
+html{
+	padding: 0;
+	margin: 0;
+	background: #f765b8;
+}
+
+input{
+  background: #f765b8;
+  border: 1px;
+  border-radius: 3px;
+  color: white;
+  padding: 20px;
+  margin: 50px auto 0px auto;
+  width: 50%;
+}
+
+textarea{
+  background: #f765b8;
+  border: 1px;
+  border-radius: 3px;
+  color: white;
+  padding: 20px;
+  margin: 50px auto 0px auto;
+  width: 50%;
+}
+
+
+
+  a{
+	padding: 5px 15px;
+	font-size: 15px;
+	color: white;
+	background: #f765b8;
+	display: inline-block;
+	border-radius: 10px
+}
+
+  a:hover{
+	background: #27fdf5;
+
+}
+
+table {
+  height: 40%;
+  left: 10%;
+  margin: .5% auto;
+  position: static;
+  width: 80%;
+  border-radius: 5px;
+}
+
+thead th {
+	background:#c20a72;
+	border-radius: 5px;
+}
+
+tr {
+  background: #f53da5;
+  border-radius: 5px;
+}
+
+th, td {
+  font-weight: 400;
+  padding: 20px;
+  text-align: center;
+  width: 33.3333%;
+  border-radius: 5px;
+}
+
+aside {
+	color: white;
+	float: right;
+	padding: 100px 50px;
+
+}
+
+/* global end*/
+
+
+#big_wrapper{
+	border: black;
+	width: auto ;
+	margin: auto auto;
+
+}
+
+
+
+/* grid table setup - form */
+.grid-container-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: minmax(100px, auto);
+  grid-template-areas:
+  'nav nav '
+  'top top'
+  'mleft mright'
+  'bottom bottom';
+  grid-gap: 10px;
+  padding: 20px;
+}
+
+/* grid box style - form */
+.grid-container-form > div {
+  background:#f98dc9;
+  text-align: center;
+  padding: 20px;
+  border-radius: 5px;
+  font: bold 14px Tahoma;
+  color: white;
+}
+
+/* form - end */
+
+/* grid assignment & footer styling*/
+.top { grid-area: nav; }
+.header { grid-area: top; }
+.mleft { grid-area: mleft; }
+.mright { grid-area: mright; }
+.mid { grid-area: mid; }
+.footer { grid-area: bottom;
+    background:#f98dc9;
+    text-align: center;
+    font: bold 14px Tahoma;
+    color: white;
+ }
+
+/*grid tag assignment*/
+.top header{
+	  	float: left;
+	 	padding: 20px;
+	    font: bold 30px Tahoma;
+	    color: white;
+
+}
+
+.top img{
+	float: left;
+}
+
+.header p{
+	text-align: left;
+}
+
+
+.mleft article{
+	text-align: left;
+
+}
+
+
+.mright article{
+	text-align: left;
+
+}
+
+
+.mleft section{
+  text-align: center;
+
+}
+
+.mright section{
+  text-align: center;
+}
+
+
+#forms button:hover{
+	background: #f765b8;
+
+}
+
+
+#forms h1 {
+	color: white;
+	font: bold 25px Tahoma
+}
+
+/* login form - end */
