@@ -157,7 +157,8 @@
 	function searchstatus(){
 		var request = new XMLHttpRequest();
 		var response = 0;
-		var string = document.getElementById("search_L").value;
+		//var string = document.getElementById("search_L").value;
+		var string = "%" + document.getElementById("search_L").value + "%";
 
 
 		request.onload = function() {
@@ -200,5 +201,4 @@
 </div>
 </html>
 <!--
-dynamic update loser.
 -->
